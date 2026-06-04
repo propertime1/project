@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>一心智考 - 数据库版</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #3b82f6;
+            --primary-dark: #2563eb;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --bg-dark: #0f172a;
+            --bg-card: #1e293b;
+            --bg-light: #f1f5f9;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --text-light: #f8fafc;
+            --border: #e2e8f0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--bg-light);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* 登录/注册页面 */
+        .auth-page {
+            min-height: 100vh;
+            display: flex;
+            background: url('https://www.cdut.edu.cn/__local/F/F1/53/2648B8DD236D78F21F8769812CD_FDDDC5E4_FA950.jpg') center/cover no-repeat;
+        }
+
+        .auth-container {
+            display: flex;
+            width: 100%;
+            max-width: 1200px;
+            margin: auto;
+            min-height: 600px;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+
+        .auth-brand {
+            flex: 1;
+            background: url('https://www.cdut.edu.cn/__local/F/F1/53/2648B8DD236D78F21F8769812CD_FDDDC5E4_FA950.jpg') center/cover no-repeat;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 60px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .auth-brand::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(30, 58, 138, 0.55);
+            backdrop-filter: blur(2px) saturate(1.4);
+            -webkit-backdrop-filter: blur(2px) saturate(1.4);
+        }
+
+        .brand-icon {
+            font-size: 80px;
+            margin-bottom: 30px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .brand-title {
+            font-size: 48px;
+            font-weight: 300;
+            letter-spacing: 12px;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 1;
+            text-shadow: 0 2px 20px rgba(0,0,0,0.3);
+        }
+
+        .brand-desc {
+            font-size: 18px;
+            opacity: 0.9;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .auth-form-wrapper {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 60px;
+            background: white;
+        }
+
+        .auth-header {
+            margin-bottom: 40px;
+        }
+
+        .auth-header h2 {
+            font-size: 32px;
+            color: var(--text-primary);
+            margin-bottom: 10px;
+        }
+
+        .auth-header p {
+            color: var(--text-secondary);
+        }
+
+        .role-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            background: var(--bg-light);
+            padding: 5px;
+            border-radius: 10px;
+        }
+
+        .role-tab {
+            flex: 1;
+            padding: 12px 20px;
+            border: none;
+            background: transparent;
+            color: var(--text-secondary);
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .role-tab.active {
+            background: white;
+            color: var(--primary);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 14px 16px 14px 45px;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            font-size: 15px;
+            transition: all 0.3s;
+            background: white;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+            font-size: 16px;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 16px;
+            transition: color 0.3s;
+        }
+
+        .password-toggle:hover {
+            color: var(--primary);
+        }
+
+        .captcha-group {
+            display: flex;
+            gap: 12px;
+            align-items: flex-end;
+        }
+
+        .captcha-group .form-group {
+            flex: 1;
+            margin-bottom: 0;
+        }
+
+        .captcha-img {
+            height: 48px;
+            min-width: 120px;
+            background: linear-gradient(135deg, #f0f4f8 0%, #e2e8f0 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: 6px;
+            color: #1e3a8a;
+            cursor: pointer;
+            user-select: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .captcha-img::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 2px,
+                rgba(0,0,0,0.03) 2px,
+                rgba(0,0,0,0.03) 4px
+            );
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px 24px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .auth-footer {
+            margin-top: 30px;
+            text-align: center;
+            color: var(--text-secondary);
+        }
+
+        .auth-footer a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .error-message {
+            background: #fef2f2;
+            color: var(--danger);
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            display: none;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .error-message.show {
+            display: flex;
+        }
+
+        .success-message {
+            background: #ecfdf5;
+            color: var(--success);
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            display: none;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .success-message.show {
+            display: flex;
+        }
+
+        /* 加载动画 */
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* 仪表盘 */
+        .dashboard {
+            display: none;
+            min-height: 100vh;
+        }
+
+        .dashboard.show {
+            display: flex;
+        }
+
+        .sidebar {
+            width: 260px;
+            background: var(--bg-dark);
+            color: white;
+            position: fixed;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            z-index: 100;
+        }
+
+        .sidebar-header {
+            padding: 24px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .sidebar-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .sidebar-brand i {
+            font-size: 28px;
+            color: var(--primary);
+        }
+
+        .sidebar-brand span {
+            font-size: 20px;
+            font-weight: 300;
+            letter-spacing: 6px;
+        }
+
+        .sidebar-user {
+            padding: 20px 24px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .user-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .user-details h4 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .user-details p {
+            font-size: 12px;
+            opacity: 0.7;
+        }
+
+        .sidebar-nav {
+            flex: 1;
+            padding: 16px 12px;
+            overflow-y: auto;
+        }
+
+        .nav-section {
+            margin-bottom: 24px;
+        }
+
+        .nav-section-title {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            opacity: 0.5;
+            padding: 0 12px;
+            margin-bottom: 8px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            border-radius: 8px;
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.3s;
+            cursor: pointer;
+            margin-bottom: 4px;
+        }
+
+        .nav-item:hover {
+            background: rgba(255,255,255,0.1);
+            color: white;
+        }
+
+        .nav-item.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .sidebar-footer {
+            padding: 16px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .logout-btn {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            border-radius: 8px;
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.3s;
+            cursor: pointer;
+            width: 100%;
+            background: transparent;
+            border: none;
+        }
+
+        .logout-btn:hover {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+
+        .main-content {
+            flex: 1;
+            margin-left: 260px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .top-header {
+            height: 70px;
+            background: white;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 30px;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .page-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .content-area {
+            flex: 1;
+            padding: 30px;
+            overflow-y: auto;
+        }
+
+        .welcome-card {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            border-radius: 16px;
+            padding: 40px;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        .welcome-card h2 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .welcome-card p {
+            opacity: 0.9;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            border: 1px solid var(--border);
+        }
+
+        .stat-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .stat-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- 登录页面 -->
+    <div class="auth-page" id="loginPage">
+        <div class="auth-container">
+            <div class="auth-brand">
+                <div class="brand-icon">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <h1 class="brand-title">一心智考</h1>
+                <p class="brand-desc">为考试而生 · 让学习更高效</p>
+            </div>
+            <div class="auth-form-wrapper">
+                <div class="auth-header">
+                    <h2>欢迎回来</h2>
+                    <p>请登录您的账号以继续</p>
+                </div>
+                <div class="error-message" id="loginError">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <span id="loginErrorText"></span>
+                </div>
+                <div class="success-message" id="loginSuccess">
+                    <i class="fas fa-check-circle"></i>
+                    <span id="loginSuccessText"></span>
+                </div>
+                <div class="role-tabs">
+                    <button class="role-tab active" data-role="STUDENT" onclick="selectRole(this)">
+                        <i class="fas fa-user-graduate"></i> 学生登录
+                    </button>
+                    <button class="role-tab" data-role="TEACHER" onclick="selectRole(this)">
+                        <i class="fas fa-chalkboard-teacher"></i> 教师登录
+                    </button>
+                </div>
+                <form id="loginForm" onsubmit="handleLogin(event)">
+                    <div class="form-group">
+                        <label class="form-label">用户名</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-user input-icon"></i>
+                            <input type="text" class="form-input" id="loginUsername" placeholder="请输入学号/工号" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">密码</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-lock input-icon"></i>
+                            <input type="password" class="form-input" id="loginPassword" placeholder="请输入密码" required>
+                            <i class="fas fa-eye password-toggle" onclick="togglePassword('loginPassword', this)"></i>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary" id="loginBtn">
+                        <span>登录</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </form>
+                <div class="auth-footer">
+                    还没有账号？<a href="#" onclick="showRegister()">立即注册</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 注册页面 -->
+    <div class="auth-page hidden" id="registerPage">
+        <div class="auth-container">
+            <div class="auth-brand">
+                <div class="brand-icon">
+                    <i class="fas fa-user-plus"></i>
+                </div>
+                <h1 class="brand-title">加入一心智考</h1>
+                <p class="brand-desc">创建您的专属账号，开启智慧考试之旅</p>
+            </div>
+            <div class="auth-form-wrapper">
+                <div class="auth-header">
+                    <h2>创建账号</h2>
+                    <p>填写以下信息完成注册</p>
+                </div>
+                <div class="error-message" id="registerError">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <span id="registerErrorText"></span>
+                </div>
+                <div class="success-message" id="registerSuccess">
+                    <i class="fas fa-check-circle"></i>
+                    <span id="registerSuccessText"></span>
+                </div>
+                <div class="role-tabs">
+                    <button class="role-tab active" data-role="STUDENT" onclick="selectRegisterRole(this)">
+                        <i class="fas fa-user-graduate"></i> 学生注册
+                    </button>
+                    <button class="role-tab" data-role="TEACHER" onclick="selectRegisterRole(this)">
+                        <i class="fas fa-chalkboard-teacher"></i> 教师注册
+                    </button>
+                </div>
+                <form id="registerForm" onsubmit="handleRegister(event)">
+                    <div class="form-group">
+                        <label class="form-label">用户名</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-user input-icon"></i>
+                            <input type="text" class="form-input" id="regUsername" placeholder="请输入学号/工号" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">邮箱</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-envelope input-icon"></i>
+                            <input type="email" class="form-input" id="regEmail" placeholder="请输入邮箱" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">姓名</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-id-card input-icon"></i>
+                            <input type="text" class="form-input" id="regName" placeholder="请输入真实姓名" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">密码</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-lock input-icon"></i>
+                            <input type="password" class="form-input" id="regPassword" placeholder="请输入密码（至少6位）" required minlength="6">
+                            <i class="fas fa-eye password-toggle" onclick="togglePassword('regPassword', this)"></i>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">确认密码</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-lock input-icon"></i>
+                            <input type="password" class="form-input" id="regConfirmPassword" placeholder="请再次输入密码" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary" id="registerBtn">
+                        <span>注册</span>
+                        <i class="fas fa-user-plus"></i>
+                    </button>
+                </form>
+                <div class="auth-footer">
+                    已有账号？<a href="#" onclick="showLogin()">立即登录</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 仪表盘 -->
+    <div class="dashboard" id="dashboard">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-brand">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>一心智考</span>
+                </div>
+            </div>
+            <div class="sidebar-user">
+                <div class="user-info">
+                    <div class="user-avatar" id="userAvatar">张</div>
+                    <div class="user-details">
+                        <h4 id="userName">张三</h4>
+                        <p id="userRole">学生</p>
+                    </div>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <div class="nav-section-title">通用</div>
+                    <a href="#" class="nav-item active">
+                        <i class="fas fa-home"></i>
+                        <span>首页</span>
+                    </a>
+                    <a href="#" class="nav-item">
+                        <i class="fas fa-user"></i>
+                        <span>个人中心</span>
+                    </a>
+                </div>
+                <div class="nav-section" id="studentMenu">
+                    <div class="nav-section-title">学生功能</div>
+                    <a href="#" class="nav-item">
+                        <i class="fas fa-file-alt"></i>
+                        <span>我的考试</span>
+                    </a>
+                    <a href="#" class="nav-item">
+                        <i class="fas fa-chart-bar"></i>
+                        <span>我的成绩</span>
+                    </a>
+                </div>
+            </nav>
+            <div class="sidebar-footer">
+                <button class="logout-btn" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>退出登录</span>
+                </button>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-header">
+                <h1 class="page-title">首页</h1>
+            </header>
+            <div class="content-area">
+                <div class="welcome-card">
+                    <h2>欢迎回来，<span id="welcomeName">张三</span>！</h2>
+                    <p>今天是学习的好日子，加油！</p>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span class="stat-label">待考考试</span>
+                            <div class="stat-icon" style="background: rgba(59, 130, 246, 0.1); color: #3b82f6;">
+                                <i class="fas fa-calendar-alt"></i>
+                            </div>
+                        </div>
+                        <div class="stat-value">5</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span class="stat-label">已完成</span>
+                            <div class="stat-icon" style="background: rgba(16, 185, 129, 0.1); color: #10b981;">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                        </div>
+                        <div class="stat-value">12</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span class="stat-label">平均成绩</span>
+                            <div class="stat-icon" style="background: rgba(245, 158, 11, 0.1); color: #f59e0b;">
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                        <div class="stat-value">87.5</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span class="stat-label">错题数量</span>
+                            <div class="stat-icon" style="background: rgba(239, 68, 68, 0.1); color: #ef4444;">
+                                <i class="fas fa-exclamation-triangle"></i>
+                            </div>
+                        </div>
+                        <div class="stat-value">23</div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // API 基础地址
+        const API_BASE = 'http://localhost:3001/api';
+
+        let currentUser = null;
+        let selectedRole = 'STUDENT';
+        let registerRole = 'STUDENT';
+
+        // 工具函数：显示错误信息
+        function showError(elementId, message) {
+            const errorDiv = document.getElementById(elementId);
+            const errorText = document.getElementById(elementId + 'Text');
+            errorText.textContent = message;
+            errorDiv.classList.add('show');
+            setTimeout(() => errorDiv.classList.remove('show'), 5000);
+        }
+
+        // 工具函数：显示成功信息
+        function showSuccess(elementId, message) {
+            const successDiv = document.getElementById(elementId);
+            const successText = document.getElementById(elementId + 'Text');
+            successText.textContent = message;
+            successDiv.classList.add('show');
+            setTimeout(() => successDiv.classList.remove('show'), 3000);
+        }
+
+        // 切换密码显示
+        function togglePassword(inputId, icon) {
+            const input = document.getElementById(inputId);
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+
+        // 选择登录角色
+        function selectRole(btn) {
+            document.querySelectorAll('#loginPage .role-tab').forEach(tab => tab.classList.remove('active'));
+            btn.classList.add('active');
+            selectedRole = btn.dataset.role;
+        }
+
+        // 选择注册角色
+        function selectRegisterRole(btn) {
+            document.querySelectorAll('#registerPage .role-tab').forEach(tab => tab.classList.remove('active'));
+            btn.classList.add('active');
+            registerRole = btn.dataset.role;
+        }
+
+        // 显示注册页面
+        function showRegister() {
+            document.getElementById('loginPage').classList.add('hidden');
+            document.getElementById('registerPage').classList.remove('hidden');
+            // 清除错误信息
+            document.getElementById('loginError').classList.remove('show');
+        }
+
+        // 显示登录页面
+        function showLogin() {
+            document.getElementById('registerPage').classList.add('hidden');
+            document.getElementById('loginPage').classList.remove('hidden');
+            // 清除错误信息
+            document.getElementById('registerError').classList.remove('show');
+        }
+
+        // 处理登录 - 连接数据库
+        async function handleLogin(e) {
+            e.preventDefault();
+            const btn = document.getElementById('loginBtn');
+            const username = document.getElementById('loginUsername').value;
+            const password = document.getElementById('loginPassword').value;
+
+            // 显示加载状态
+            btn.innerHTML = '<div class="spinner"></div>';
+            btn.disabled = true;
+
+            try {
+                const response = await fetch(`${API_BASE}/auth/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        username,
+                        password,
+                        role: selectedRole
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    currentUser = data.data;
+                    showSuccess('loginSuccess', '登录成功！');
+                    setTimeout(() => showDashboard(), 500);
+                } else {
+                    showError('loginError', data.message || '登录失败');
+                }
+            } catch (error) {
+                console.error('登录错误:', error);
+                showError('loginError', '网络错误，请检查服务器是否运行');
+            } finally {
+                btn.innerHTML = '<span>登录</span><i class="fas fa-arrow-right"></i>';
+                btn.disabled = false;
+            }
+        }
+
+        // 处理注册 - 连接数据库
+        async function handleRegister(e) {
+            e.preventDefault();
+            const btn = document.getElementById('registerBtn');
+            const username = document.getElementById('regUsername').value;
+            const email = document.getElementById('regEmail').value;
+            const name = document.getElementById('regName').value;
+            const password = document.getElementById('regPassword').value;
+            const confirmPassword = document.getElementById('regConfirmPassword').value;
+
+            // 前端验证
+            if (password !== confirmPassword) {
+                showError('registerError', '两次输入的密码不一致');
+                return;
+            }
+
+            if (password.length < 6) {
+                showError('registerError', '密码长度至少6位');
+                return;
+            }
+
+            // 显示加载状态
+            btn.innerHTML = '<div class="spinner"></div>';
+            btn.disabled = true;
+
+            try {
+                const response = await fetch(`${API_BASE}/auth/register`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        username,
+                        email,
+                        password,
+                        name,
+                        role: registerRole
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    showSuccess('registerSuccess', '注册成功！请登录');
+                    setTimeout(() => {
+                        showLogin();
+                        // 清空表单
+                        document.getElementById('registerForm').reset();
+                    }, 1500);
+                } else {
+                    showError('registerError', data.message || '注册失败');
+                }
+            } catch (error) {
+                console.error('注册错误:', error);
+                showError('registerError', '网络错误，请检查服务器是否运行');
+            } finally {
+                btn.innerHTML = '<span>注册</span><i class="fas fa-user-plus"></i>';
+                btn.disabled = false;
+            }
+        }
+
+        // 显示仪表盘
+        function showDashboard() {
+            document.getElementById('loginPage').classList.add('hidden');
+            document.getElementById('registerPage').classList.add('hidden');
+            document.getElementById('dashboard').classList.add('show');
+
+            // 更新用户信息
+            if (currentUser) {
+                document.getElementById('userName').textContent = currentUser.name;
+                document.getElementById('userAvatar').textContent = currentUser.name.charAt(0);
+                document.getElementById('userRole').textContent = currentUser.role === 'STUDENT' ? '学生' : '教师';
+                document.getElementById('welcomeName').textContent = currentUser.name;
+            }
+        }
+
+        // 退出登录
+        function logout() {
+            currentUser = null;
+            document.getElementById('dashboard').classList.remove('show');
+            document.getElementById('loginPage').classList.remove('hidden');
+            document.getElementById('loginForm').reset();
+            document.getElementById('loginError').classList.remove('show');
+        }
+    </script>
+</body>
+</html>

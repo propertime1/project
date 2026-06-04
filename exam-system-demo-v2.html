@@ -1,0 +1,3361 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>一心智考 - 演示</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #3b82f6;
+            --primary-dark: #2563eb;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --bg-dark: #0f172a;
+            --bg-card: #1e293b;
+            --bg-light: #f1f5f9;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --text-light: #f8fafc;
+            --border: #e2e8f0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--bg-light);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* 登录/注册页面 */
+        .auth-page {
+            min-height: 100vh;
+            display: flex;
+            background: url('https://www.cdut.edu.cn/__local/F/F1/53/2648B8DD236D78F21F8769812CD_FDDDC5E4_FA950.jpg') center/cover no-repeat;
+        }
+
+        .auth-container {
+            display: flex;
+            width: 100%;
+            max-width: 1200px;
+            margin: auto;
+            min-height: 600px;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+
+        .auth-brand {
+            flex: 1;
+            background: url('https://www.cdut.edu.cn/__local/F/F1/53/2648B8DD236D78F21F8769812CD_FDDDC5E4_FA950.jpg') center/cover no-repeat;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 60px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .auth-brand::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(30, 58, 138, 0.55);
+            backdrop-filter: blur(2px) saturate(1.4);
+            -webkit-backdrop-filter: blur(2px) saturate(1.4);
+        }
+
+        .brand-icon {
+            font-size: 80px;
+            margin-bottom: 30px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .brand-title {
+            font-size: 48px;
+            font-weight: 300;
+            letter-spacing: 12px;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 1;
+            text-shadow: 0 2px 20px rgba(0,0,0,0.3);
+        }
+
+        .brand-desc {
+            font-size: 18px;
+            opacity: 0.9;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .auth-form-wrapper {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 60px;
+            background: white;
+        }
+
+        .auth-header {
+            margin-bottom: 40px;
+        }
+
+        .auth-header h2 {
+            font-size: 32px;
+            color: var(--text-primary);
+            margin-bottom: 10px;
+        }
+
+        .auth-header p {
+            color: var(--text-secondary);
+        }
+
+        .role-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            background: var(--bg-light);
+            padding: 5px;
+            border-radius: 10px;
+        }
+
+        .role-tab {
+            flex: 1;
+            padding: 12px 20px;
+            border: none;
+            background: transparent;
+            color: var(--text-secondary);
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .role-tab.active {
+            background: white;
+            color: var(--primary);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 14px 16px 14px 45px;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            font-size: 15px;
+            transition: all 0.3s;
+            background: white;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+            font-size: 16px;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 16px;
+            transition: color 0.3s;
+        }
+
+        .password-toggle:hover {
+            color: var(--primary);
+        }
+
+        .captcha-group {
+            display: flex;
+            gap: 12px;
+            align-items: flex-end;
+        }
+
+        .captcha-group .form-group {
+            flex: 1;
+            margin-bottom: 0;
+        }
+
+        .captcha-img {
+            height: 48px;
+            min-width: 120px;
+            background: linear-gradient(135deg, #f0f4f8 0%, #e2e8f0 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: 6px;
+            color: #1e3a8a;
+            cursor: pointer;
+            user-select: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .captcha-img::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 2px,
+                rgba(0,0,0,0.03) 2px,
+                rgba(0,0,0,0.03) 4px
+            );
+        }
+
+        .captcha-img:hover {
+            background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
+        }
+
+        .captcha-refresh {
+            position: absolute;
+            right: 8px;
+            font-size: 12px;
+            color: var(--text-secondary);
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .captcha-img:hover .captcha-refresh {
+            opacity: 1;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px 24px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        .auth-footer {
+            margin-top: 30px;
+            text-align: center;
+            color: var(--text-secondary);
+        }
+
+        .auth-footer a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .auth-footer a:hover {
+            text-decoration: underline;
+        }
+
+        .error-message {
+            background: #fef2f2;
+            color: var(--danger);
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            display: none;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .error-message.show {
+            display: flex;
+        }
+
+        /* 仪表盘布局 */
+        .dashboard {
+            display: none;
+            min-height: 100vh;
+        }
+
+        .dashboard.show {
+            display: flex;
+        }
+
+        /* 侧边栏 */
+        .sidebar {
+            width: 260px;
+            background: var(--bg-dark);
+            color: white;
+            position: fixed;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            z-index: 100;
+        }
+
+        .sidebar-header {
+            padding: 24px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .sidebar-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .sidebar-brand i {
+            font-size: 28px;
+            color: var(--primary);
+        }
+
+        .sidebar-brand span {
+            font-size: 20px;
+            font-weight: 300;
+            letter-spacing: 6px;
+        }
+
+        .sidebar-user {
+            padding: 20px 24px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .user-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .user-details h4 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .user-details p {
+            font-size: 12px;
+            opacity: 0.7;
+        }
+
+        .sidebar-nav {
+            flex: 1;
+            padding: 16px 12px;
+            overflow-y: auto;
+        }
+
+        .nav-section {
+            margin-bottom: 24px;
+        }
+
+        .nav-section-title {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            opacity: 0.5;
+            padding: 0 12px;
+            margin-bottom: 8px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            border-radius: 8px;
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.3s;
+            cursor: pointer;
+            margin-bottom: 4px;
+        }
+
+        .nav-item:hover {
+            background: rgba(255,255,255,0.1);
+            color: white;
+        }
+
+        .nav-item.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .nav-item i {
+            width: 20px;
+            text-align: center;
+        }
+
+        .sidebar-footer {
+            padding: 16px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .logout-btn {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            border-radius: 8px;
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.3s;
+            cursor: pointer;
+            width: 100%;
+            background: transparent;
+            border: none;
+        }
+
+        .logout-btn:hover {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+
+        /* 主内容区 */
+        .main-content {
+            flex: 1;
+            margin-left: 260px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .top-header {
+            height: 70px;
+            background: white;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 30px;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .page-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .notification-btn {
+            position: relative;
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            background: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            transition: all 0.3s;
+        }
+
+        .notification-btn:hover {
+            background: var(--bg-light);
+            color: var(--primary);
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -2px;
+            right: -2px;
+            width: 18px;
+            height: 18px;
+            background: var(--danger);
+            color: white;
+            font-size: 10px;
+            font-weight: 600;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .content-area {
+            flex: 1;
+            padding: 30px;
+            overflow-y: auto;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 24px;
+        }
+
+        /* 统计卡片 */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        @media (max-width: 1200px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            border: 1px solid var(--border);
+        }
+
+        .stat-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .stat-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .stat-change {
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .stat-change.positive {
+            color: var(--success);
+        }
+
+        .stat-change.negative {
+            color: var(--danger);
+        }
+
+        /* 功能卡片 */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        @media (max-width: 1200px) {
+            .cards-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            border-radius: 16px 16px 0 0;
+            transform: scaleX(0);
+            transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 0;
+        }
+
+        .feature-card[data-color="blue"]::before { background: linear-gradient(90deg, #3b82f6, #6366f1); }
+        .feature-card[data-color="green"]::before { background: linear-gradient(90deg, #10b981, #06b6d4); }
+        .feature-card[data-color="orange"]::before { background: linear-gradient(90deg, #f59e0b, #f97316); }
+        .feature-card[data-color="red"]::before { background: linear-gradient(90deg, #ef4444, #ec4899); }
+
+        .feature-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 40px -8px rgba(0,0,0,0.12);
+        }
+
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .feature-card.active {
+            transform: translateY(-4px);
+        }
+
+        .feature-card.active[data-color="blue"] {
+            border-color: #3b82f6;
+            box-shadow: 0 8px 30px -4px rgba(59, 130, 246, 0.25);
+            background: linear-gradient(135deg, #eff6ff 0%, white 100%);
+        }
+        .feature-card.active[data-color="blue"]::before { transform: scaleX(1); }
+        .feature-card.active[data-color="blue"] .card-icon.blue {
+            background: #3b82f6;
+            color: white;
+            box-shadow: 0 4px 14px rgba(59, 130, 246, 0.4);
+        }
+
+        .feature-card.active[data-color="green"] {
+            border-color: #10b981;
+            box-shadow: 0 8px 30px -4px rgba(16, 185, 129, 0.25);
+            background: linear-gradient(135deg, #ecfdf5 0%, white 100%);
+        }
+        .feature-card.active[data-color="green"]::before { transform: scaleX(1); }
+        .feature-card.active[data-color="green"] .card-icon.green {
+            background: #10b981;
+            color: white;
+            box-shadow: 0 4px 14px rgba(16, 185, 129, 0.4);
+        }
+
+        .feature-card.active[data-color="orange"] {
+            border-color: #f59e0b;
+            box-shadow: 0 8px 30px -4px rgba(245, 158, 11, 0.25);
+            background: linear-gradient(135deg, #fffbeb 0%, white 100%);
+        }
+        .feature-card.active[data-color="orange"]::before { transform: scaleX(1); }
+        .feature-card.active[data-color="orange"] .card-icon.orange {
+            background: #f59e0b;
+            color: white;
+            box-shadow: 0 4px 14px rgba(245, 158, 11, 0.4);
+        }
+
+        .feature-card.active[data-color="red"] {
+            border-color: #ef4444;
+            box-shadow: 0 8px 30px -4px rgba(239, 68, 68, 0.25);
+            background: linear-gradient(135deg, #fef2f2 0%, white 100%);
+        }
+        .feature-card.active[data-color="red"]::before { transform: scaleX(1); }
+        .feature-card.active[data-color="red"] .card-icon.red {
+            background: #ef4444;
+            color: white;
+            box-shadow: 0 4px 14px rgba(239, 68, 68, 0.4);
+        }
+
+        .card-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-bottom: 16px;
+            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .card-icon.blue { background: rgba(59, 130, 246, 0.1); color: var(--primary); }
+        .card-icon.green { background: rgba(16, 185, 129, 0.1); color: var(--success); }
+        .card-icon.orange { background: rgba(245, 158, 11, 0.1); color: var(--warning); }
+        .card-icon.red { background: rgba(239, 68, 68, 0.1); color: var(--danger); }
+
+        .feature-card:hover .card-icon {
+            transform: scale(1.08);
+        }
+
+        .feature-card:hover[data-color="blue"] .card-icon.blue { background: rgba(59, 130, 246, 0.18); }
+        .feature-card:hover[data-color="green"] .card-icon.green { background: rgba(16, 185, 129, 0.18); }
+        .feature-card:hover[data-color="orange"] .card-icon.orange { background: rgba(245, 158, 11, 0.18); }
+        .feature-card:hover[data-color="red"] .card-icon.red { background: rgba(239, 68, 68, 0.18); }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            transition: color 0.3s;
+        }
+
+        .feature-card.active[data-color="blue"] .card-title { color: #2563eb; }
+        .feature-card.active[data-color="green"] .card-title { color: #059669; }
+        .feature-card.active[data-color="orange"] .card-title { color: #d97706; }
+        .feature-card.active[data-color="red"] .card-title { color: #dc2626; }
+
+        .card-desc {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+        }
+
+        .card-arrow {
+            font-size: 14px;
+            color: var(--text-secondary);
+            transition: all 0.3s;
+        }
+
+        .feature-card:hover .card-arrow {
+            color: var(--primary);
+            transform: translateX(4px);
+        }
+
+        .feature-card.active .card-arrow {
+            transform: rotate(180deg);
+        }
+
+        /* 子菜单 */
+        .submenu {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease, margin-top 0.3s ease;
+            opacity: 0;
+            margin-top: 0;
+        }
+
+        .submenu.show {
+            max-height: 300px;
+            opacity: 1;
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border);
+        }
+
+        .submenu-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.25s;
+            margin-bottom: 4px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submenu-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            border-radius: 0 3px 3px 0;
+            background: var(--primary);
+            transform: scaleY(0);
+            transition: transform 0.25s;
+        }
+
+        .submenu-item:hover {
+            background: var(--bg-light);
+            color: var(--text-primary);
+            padding-left: 18px;
+        }
+
+        .submenu-item:hover::before {
+            transform: scaleY(1);
+        }
+
+        .submenu-item:active {
+            background: rgba(59, 130, 246, 0.08);
+        }
+
+        .submenu-item i {
+            font-size: 12px;
+            transition: transform 0.25s;
+        }
+
+        .submenu-item:hover i {
+            transform: translateX(3px);
+            color: var(--primary);
+        }
+
+        /* Toast 通知 */
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .toast {
+            background: white;
+            padding: 16px 20px;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 300px;
+            animation: slideIn 0.3s ease;
+            border-left: 4px solid var(--success);
+        }
+
+        .toast.error {
+            border-left-color: var(--danger);
+        }
+
+        .toast-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+        }
+
+        .toast.error .toast-icon {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+        }
+
+        .toast-content h4 {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 2px;
+        }
+
+        .toast-content p {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideOut {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+
+        .toast.hide {
+            animation: slideOut 0.3s ease forwards;
+        }
+
+        /* 加载动画 */
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* 设置面板 */
+        .settings-panel {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 400px;
+            height: 100vh;
+            background: white;
+            box-shadow: -10px 0 40px rgba(0,0,0,0.15);
+            z-index: 200;
+            transition: right 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .settings-panel.show {
+            right: 0;
+        }
+
+        .settings-header {
+            padding: 24px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .settings-header h2 {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .settings-close {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            background: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            transition: all 0.2s;
+        }
+
+        .settings-close:hover {
+            background: var(--bg-light);
+            color: var(--danger);
+        }
+
+        .settings-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px;
+        }
+
+        .settings-section {
+            margin-bottom: 32px;
+        }
+
+        .settings-section-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 16px;
+        }
+
+        .settings-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px;
+            background: var(--bg-light);
+            border-radius: 12px;
+            margin-bottom: 12px;
+        }
+
+        .settings-item-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .settings-item-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+
+        .settings-item-icon.email { background: rgba(59, 130, 246, 0.1); color: #3b82f6; }
+        .settings-item-icon.wechat { background: rgba(16, 185, 129, 0.1); color: #10b981; }
+        .settings-item-icon.phone { background: rgba(245, 158, 11, 0.1); color: #f59e0b; }
+
+        .settings-item-text h4 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .settings-item-text p {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .settings-item-action {
+            padding: 8px 16px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: white;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .settings-item-action:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .settings-item-action.bound {
+            background: rgba(16, 185, 129, 0.1);
+            border-color: #10b981;
+            color: #10b981;
+        }
+
+        /* 悬浮球 */
+        .float-ball {
+            position: fixed;
+            right: 30px;
+            bottom: 30px;
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            cursor: grab;
+            z-index: 150;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
+            transition: background 0.3s, box-shadow 0.3s;
+            user-select: none;
+            touch-action: none;
+        }
+
+        .float-ball:hover {
+            box-shadow: 0 12px 32px rgba(102, 126, 234, 0.5);
+        }
+
+        .float-ball.dragging {
+            cursor: grabbing;
+            transition: none;
+            box-shadow: 0 16px 48px rgba(102, 126, 234, 0.6);
+            transform: scale(1.15);
+        }
+
+        .float-ball.active {
+            background: linear-gradient(135deg, #ef4444 0%, #ec4899 100%);
+            box-shadow: 0 8px 24px rgba(239, 68, 68, 0.4);
+        }
+
+        .float-ball.active .float-ball-icon-inner {
+            transform: rotate(45deg);
+            transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .float-ball-icon-inner {
+            transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .float-menu {
+            position: fixed;
+            width: 56px;
+            height: 56px;
+            z-index: 140;
+            pointer-events: none;
+        }
+
+        .float-menu-item {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: var(--text-primary);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+            cursor: pointer;
+            pointer-events: auto;
+            opacity: 0;
+            transform: scale(0) translate(0, 0);
+            transition: opacity 0.3s ease, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease;
+        }
+
+        .float-menu-item:hover {
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+        }
+
+        .float-menu.show .float-menu-item {
+            opacity: 1;
+        }
+
+        .float-menu.show .float-menu-item:nth-child(1) { transform: translate(-75px, -85px) scale(1); transition-delay: 0ms; }
+        .float-menu.show .float-menu-item:nth-child(2) { transform: translate(0, -110px) scale(1); transition-delay: 50ms; }
+        .float-menu.show .float-menu-item:nth-child(3) { transform: translate(75px, -85px) scale(1); transition-delay: 100ms; }
+        .float-menu.show .float-menu-item:nth-child(4) { transform: translate(95px, -15px) scale(1); transition-delay: 150ms; }
+        .float-menu.show .float-menu-item:nth-child(5) { transform: translate(75px, 55px) scale(1); transition-delay: 200ms; }
+        .float-menu.show .float-menu-item:nth-child(6) { transform: translate(0, 80px) scale(1); transition-delay: 250ms; }
+
+        .float-menu-item.ai { color: #8b5cf6; }
+        .float-menu-item.nav { color: #3b82f6; }
+        .float-menu-item.exam { color: #10b981; }
+        .float-menu-item.score { color: #f59e0b; }
+        .float-menu-item.msg { color: #ef4444; }
+        .float-menu-item.help { color: #06b6d4; }
+
+        .float-menu-item::after {
+            content: attr(data-label);
+            position: absolute;
+            right: 60px;
+            background: var(--bg-dark);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            white-space: nowrap;
+            opacity: 0;
+            transform: translateX(10px);
+            transition: all 0.25s ease;
+            pointer-events: none;
+        }
+
+        .float-menu-item:hover::after {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* 遮罩层 */
+        .overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.3);
+            z-index: 190;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+        }
+
+        .overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* 通透模式 */
+        .transparent-mode .sidebar {
+            background: url('https://www.cdut.edu.cn/__local/3/47/A8/DE3D9BF761ABA8E1CE9497A3F2C_188A3340_2591D5.jpg') center/cover no-repeat;
+            border-right: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .transparent-mode .sidebar::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(16px) saturate(1.6);
+            -webkit-backdrop-filter: blur(16px) saturate(1.6);
+            z-index: 0;
+        }
+
+        .transparent-mode .sidebar > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .transparent-mode .sidebar .nav-item:hover {
+            background: rgba(255,255,255,0.15);
+        }
+
+        .transparent-mode .sidebar .nav-item.active {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .transparent-mode .main-content {
+            background: url('https://www.cdut.edu.cn/__local/3/47/A8/DE3D9BF761ABA8E1CE9497A3F2C_188A3340_2591D5.jpg') center/cover no-repeat fixed;
+        }
+
+        .transparent-mode .main-content::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: rgba(241, 245, 249, 0.82);
+            backdrop-filter: blur(8px) saturate(1.3);
+            -webkit-backdrop-filter: blur(8px) saturate(1.3);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .transparent-mode .main-content > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .transparent-mode .top-header {
+            background: rgba(255,255,255,0.7);
+            backdrop-filter: blur(12px) saturate(1.4);
+            -webkit-backdrop-filter: blur(12px) saturate(1.4);
+        }
+
+        .transparent-mode .stat-card,
+        .transparent-mode .feature-card {
+            background: rgba(255,255,255,0.85);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+
+        .transparent-mode .sidebar-footer .nav-item.active-palette {
+            background: rgba(255,255,255,0.2);
+        }
+
+        /* 隐藏类 */
+        .hidden {
+            display: none !important;
+        }
+
+        /* 页面切换 */
+        .page-content {
+            display: none;
+        }
+
+        .page-content.active {
+            display: block;
+        }
+
+        /* 个人中心样式 */
+        .profile-header {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .profile-avatar-large {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            color: white;
+            font-weight: 600;
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
+        }
+
+        .profile-info {
+            flex: 1;
+        }
+
+        .profile-name {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .profile-meta {
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+        }
+
+        .profile-tags {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .profile-tag {
+            padding: 6px 14px;
+            background: var(--bg-light);
+            border-radius: 20px;
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .profile-tag.primary {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--primary);
+        }
+
+        .profile-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 24px;
+        }
+
+        .profile-card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            border: 1px solid var(--border);
+        }
+
+        .profile-card-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .info-value {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .achievement-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+
+        .achievement-item {
+            text-align: center;
+            padding: 20px;
+            background: var(--bg-light);
+            border-radius: 12px;
+        }
+
+        .achievement-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 12px;
+            font-size: 20px;
+        }
+
+        .achievement-value {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .achievement-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        /* 考试安排样式 */
+        .exam-calendar {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            border: 1px solid var(--border);
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .calendar-nav {
+            display: flex;
+            gap: 8px;
+        }
+
+        .calendar-nav button {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .calendar-nav button:hover {
+            background: var(--bg-light);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 8px;
+        }
+
+        .calendar-day-header {
+            text-align: center;
+            padding: 12px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+
+        .calendar-day {
+            aspect-ratio: 1;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            padding: 8px;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s;
+            background: white;
+        }
+
+        .calendar-day:hover {
+            border-color: var(--primary);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+        }
+
+        .calendar-day.other-month {
+            color: var(--text-secondary);
+            background: var(--bg-light);
+        }
+
+        .calendar-day.today {
+            border-color: var(--primary);
+            background: rgba(59, 130, 246, 0.05);
+        }
+
+        .calendar-day.has-exam::after {
+            content: '';
+            position: absolute;
+            bottom: 6px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--danger);
+        }
+
+        .calendar-day-number {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .exam-tooltip {
+            position: fixed;
+            background: var(--bg-dark);
+            color: white;
+            padding: 12px 16px;
+            border-radius: 10px;
+            font-size: 13px;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.2s;
+            pointer-events: none;
+            min-width: 200px;
+        }
+
+        .exam-tooltip.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .exam-tooltip-title {
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .exam-tooltip-info {
+            opacity: 0.8;
+            font-size: 12px;
+        }
+
+        .exam-list {
+            margin-top: 30px;
+        }
+
+        .exam-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px;
+            background: white;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            margin-bottom: 12px;
+            transition: all 0.2s;
+        }
+
+        .exam-item:hover {
+            border-color: var(--primary);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.1);
+        }
+
+        .exam-date {
+            width: 60px;
+            text-align: center;
+        }
+
+        .exam-date-day {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .exam-date-month {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .exam-info {
+            flex: 1;
+        }
+
+        .exam-title {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .exam-meta {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .exam-status {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .exam-status.upcoming {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--primary);
+        }
+
+        .exam-status.ongoing {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+        }
+
+        .exam-status.completed {
+            background: rgba(100, 116, 139, 0.1);
+            color: var(--text-secondary);
+        }
+
+        /* 成绩统计样式 */
+        .chart-container {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            border: 1px solid var(--border);
+            margin-bottom: 24px;
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .chart-title {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .chart-legend {
+            display: flex;
+            gap: 16px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .legend-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        .chart-svg {
+            width: 100%;
+            height: 300px;
+        }
+
+        .chart-tooltip {
+            position: fixed;
+            background: var(--bg-dark);
+            color: white;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 13px;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.2s;
+            pointer-events: none;
+        }
+
+        .chart-tooltip.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .chart-tooltip-date {
+            font-size: 11px;
+            opacity: 0.7;
+            margin-bottom: 4px;
+        }
+
+        .chart-tooltip-score {
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .score-table {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+
+        .score-table-header {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            padding: 16px 24px;
+            background: var(--bg-light);
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .score-table-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            padding: 16px 24px;
+            border-top: 1px solid var(--border);
+            font-size: 14px;
+            transition: background 0.2s;
+        }
+
+        .score-table-row:hover {
+            background: var(--bg-light);
+        }
+
+        .score-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .score-badge.excellent { background: rgba(16, 185, 129, 0.1); color: #059669; }
+        .score-badge.good { background: rgba(59, 130, 246, 0.1); color: #2563eb; }
+        .score-badge.pass { background: rgba(245, 158, 11, 0.1); color: #d97706; }
+        .score-badge.fail { background: rgba(239, 68, 68, 0.1); color: #dc2626; }
+
+        /* 响应式 */
+        @media (max-width: 1024px) {
+            .auth-brand {
+                display: none;
+            }
+            .auth-container {
+                max-width: 480px;
+            }
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s;
+            }
+            .sidebar.show {
+                transform: translateX(0);
+            }
+            .main-content {
+                margin-left: 0;
+            }
+            .profile-grid {
+                grid-template-columns: 1fr;
+            }
+            .achievement-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Toast 容器 -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- 考试悬浮提示 -->
+    <div class="exam-tooltip" id="examTooltip">
+        <div class="exam-tooltip-title"></div>
+        <div class="exam-tooltip-info"></div>
+    </div>
+
+    <!-- 图表悬浮提示 -->
+    <div class="chart-tooltip" id="chartTooltip">
+        <div class="chart-tooltip-date"></div>
+        <div class="chart-tooltip-score"></div>
+    </div>
+
+    <!-- 登录页面 -->
+    <div class="auth-page" id="loginPage">
+        <div class="auth-container">
+            <div class="auth-brand">
+                <div class="brand-icon">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <h1 class="brand-title">一心智考</h1>
+                <p class="brand-desc">为考试而生 · 让学习更高效</p>
+            </div>
+            <div class="auth-form-wrapper">
+                <div class="auth-header">
+                    <h2>欢迎回来</h2>
+                    <p>请登录您的账号以继续</p>
+                </div>
+                <div class="error-message" id="loginError">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <span id="loginErrorText"></span>
+                </div>
+                <div class="role-tabs">
+                    <button class="role-tab active" data-role="STUDENT" onclick="selectRole(this)">
+                        <i class="fas fa-user-graduate"></i> 学生登录
+                    </button>
+                    <button class="role-tab" data-role="TEACHER" onclick="selectRole(this)">
+                        <i class="fas fa-chalkboard-teacher"></i> 教师登录
+                    </button>
+                </div>
+                <form id="loginForm" onsubmit="handleLogin(event)">
+                    <div class="form-group">
+                        <label class="form-label">用户名</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-user input-icon"></i>
+                            <input type="text" class="form-input" id="loginUsername" placeholder="请输入学号/工号" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">密码</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-lock input-icon"></i>
+                            <input type="password" class="form-input" id="loginPassword" placeholder="请输入密码" required>
+                            <i class="fas fa-eye password-toggle" onclick="togglePassword('loginPassword', this)"></i>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">验证码</label>
+                        <div class="captcha-group">
+                            <div class="form-group">
+                                <div class="input-wrapper">
+                                    <i class="fas fa-shield-alt input-icon"></i>
+                                    <input type="text" class="form-input" id="loginCaptcha" placeholder="请输入验证码" required maxlength="4">
+                                </div>
+                            </div>
+                            <div class="captcha-img" id="loginCaptchaImg" onclick="refreshCaptcha('login')" title="点击刷新">
+                                <span id="loginCaptchaText"></span>
+                                <i class="fas fa-sync-alt captcha-refresh"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary" id="loginBtn">
+                        <span>登录</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </form>
+                <div class="auth-footer">
+                    还没有账号？<a href="#" onclick="showRegister()">立即注册</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 注册页面 -->
+    <div class="auth-page hidden" id="registerPage">
+        <div class="auth-container">
+            <div class="auth-brand">
+                <div class="brand-icon">
+                    <i class="fas fa-user-plus"></i>
+                </div>
+                <h1 class="brand-title">加入一心智考</h1>
+                <p class="brand-desc">创建您的专属账号，开启智慧考试之旅</p>
+            </div>
+            <div class="auth-form-wrapper">
+                <div class="auth-header">
+                    <h2>创建账号</h2>
+                    <p>填写以下信息完成注册</p>
+                </div>
+                <div class="error-message" id="registerError">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <span id="registerErrorText"></span>
+                </div>
+                <div class="role-tabs">
+                    <button class="role-tab active" data-role="STUDENT" onclick="selectRegisterRole(this)">
+                        <i class="fas fa-user-graduate"></i> 学生注册
+                    </button>
+                    <button class="role-tab" data-role="TEACHER" onclick="selectRegisterRole(this)">
+                        <i class="fas fa-chalkboard-teacher"></i> 教师注册
+                    </button>
+                </div>
+                <form id="registerForm" onsubmit="handleRegister(event)">
+                    <div class="form-group">
+                        <label class="form-label">用户名</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-user input-icon"></i>
+                            <input type="text" class="form-input" id="regUsername" placeholder="请输入学号/工号" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">邮箱</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-envelope input-icon"></i>
+                            <input type="email" class="form-input" id="regEmail" placeholder="请输入邮箱" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">姓名</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-id-card input-icon"></i>
+                            <input type="text" class="form-input" id="regName" placeholder="请输入真实姓名" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">密码</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-lock input-icon"></i>
+                            <input type="password" class="form-input" id="regPassword" placeholder="请输入密码（至少6位）" required minlength="6">
+                            <i class="fas fa-eye password-toggle" onclick="togglePassword('regPassword', this)"></i>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">确认密码</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-lock input-icon"></i>
+                            <input type="password" class="form-input" id="regConfirmPassword" placeholder="请再次输入密码" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">验证码</label>
+                        <div class="captcha-group">
+                            <div class="form-group">
+                                <div class="input-wrapper">
+                                    <i class="fas fa-shield-alt input-icon"></i>
+                                    <input type="text" class="form-input" id="regCaptcha" placeholder="请输入验证码" required maxlength="4">
+                                </div>
+                            </div>
+                            <div class="captcha-img" id="regCaptchaImg" onclick="refreshCaptcha('reg')" title="点击刷新">
+                                <span id="regCaptchaText"></span>
+                                <i class="fas fa-sync-alt captcha-refresh"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary" id="registerBtn">
+                        <span>注册</span>
+                        <i class="fas fa-user-plus"></i>
+                    </button>
+                </form>
+                <div class="auth-footer">
+                    已有账号？<a href="#" onclick="showLogin()">立即登录</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 仪表盘 -->
+    <div class="dashboard" id="dashboard">
+        <!-- 侧边栏 -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-brand">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>一心智考</span>
+                </div>
+            </div>
+            <div class="sidebar-user">
+                <div class="user-info">
+                    <div class="user-avatar" id="userAvatar">张</div>
+                    <div class="user-details">
+                        <h4 id="userName">张三</h4>
+                        <p id="userRole">学生</p>
+                    </div>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <div class="nav-section-title">通用</div>
+                    <a href="#" class="nav-item" data-page="home" onclick="switchPage('home', this)">
+                        <i class="fas fa-home"></i>
+                        <span>首页</span>
+                    </a>
+                    <a href="#" class="nav-item" data-page="profile" onclick="switchPage('profile', this)">
+                        <i class="fas fa-user"></i>
+                        <span>个人中心</span>
+                    </a>
+                </div>
+                <div class="nav-section" id="studentMenu">
+                    <div class="nav-section-title">学生功能</div>
+                    <a href="#" class="nav-item" data-page="exams" onclick="switchPage('exams', this)">
+                        <i class="fas fa-file-alt"></i>
+                        <span>我的考试</span>
+                    </a>
+                    <a href="#" class="nav-item" data-page="scores" onclick="switchPage('scores', this)">
+                        <i class="fas fa-chart-bar"></i>
+                        <span>我的成绩</span>
+                    </a>
+                    <a href="#" class="nav-item" data-page="mistakes" onclick="switchPage('mistakes', this)">
+                        <i class="fas fa-book-open"></i>
+                        <span>错题本</span>
+                    </a>
+                    <a href="#" class="nav-item" data-page="practice" onclick="switchPage('practice', this)">
+                        <i class="fas fa-pen-fancy"></i>
+                        <span>练习模式</span>
+                    </a>
+                </div>
+                <div class="nav-section hidden" id="teacherMenu">
+                    <div class="nav-section-title">教师功能</div>
+                    <a href="#" class="nav-item" onclick="setActiveNav(this)">
+                        <i class="fas fa-database"></i>
+                        <span>题库管理</span>
+                    </a>
+                    <a href="#" class="nav-item" onclick="setActiveNav(this)">
+                        <i class="fas fa-calendar-check"></i>
+                        <span>考试管理</span>
+                    </a>
+                    <a href="#" class="nav-item" onclick="setActiveNav(this)">
+                        <i class="fas fa-pen-nib"></i>
+                        <span>阅卷管理</span>
+                    </a>
+                    <a href="#" class="nav-item" onclick="setActiveNav(this)">
+                        <i class="fas fa-chart-pie"></i>
+                        <span>成绩分析</span>
+                    </a>
+                </div>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="#" class="nav-item" onclick="toggleTransparentMode()" style="margin-bottom: 8px;">
+                    <i class="fas fa-palette"></i>
+                    <span>通透模式</span>
+                </a>
+                <a href="#" class="nav-item" onclick="openSettings()" style="margin-bottom: 8px;">
+                    <i class="fas fa-cog"></i>
+                    <span>设置</span>
+                </a>
+                <button class="logout-btn" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>退出登录</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- 主内容 -->
+        <main class="main-content">
+            <header class="top-header">
+                <h1 class="page-title" id="pageTitle">首页</h1>
+                <div class="header-actions">
+                    <button class="notification-btn">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge">3</span>
+                    </button>
+                </div>
+            </header>
+            <div class="content-area">
+                <!-- 首页 -->
+                <div class="page-content active" id="page-home">
+                    <!-- 统计卡片 -->
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <span class="stat-label">待考考试</span>
+                                <div class="stat-icon" style="background: rgba(59, 130, 246, 0.1); color: #3b82f6;">
+                                    <i class="fas fa-calendar-alt"></i>
+                                </div>
+                            </div>
+                            <div class="stat-value">5</div>
+                            <div class="stat-change positive">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>本周新增 2 场</span>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <span class="stat-label">已完成</span>
+                                <div class="stat-icon" style="background: rgba(16, 185, 129, 0.1); color: #10b981;">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                            </div>
+                            <div class="stat-value">12</div>
+                            <div class="stat-change positive">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>通过率 85%</span>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <span class="stat-label">平均成绩</span>
+                                <div class="stat-icon" style="background: rgba(245, 158, 11, 0.1); color: #f59e0b;">
+                                    <i class="fas fa-star"></i>
+                                </div>
+                            </div>
+                            <div class="stat-value">87.5</div>
+                            <div class="stat-change positive">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>较上月 +5.2</span>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <span class="stat-label">错题数量</span>
+                                <div class="stat-icon" style="background: rgba(239, 68, 68, 0.1); color: #ef4444;">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                </div>
+                            </div>
+                            <div class="stat-value">23</div>
+                            <div class="stat-change negative">
+                                <i class="fas fa-arrow-down"></i>
+                                <span>待复习</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 功能导航 -->
+                    <h2 class="section-title">功能导航</h2>
+                    <div class="cards-grid">
+                        <div class="feature-card" data-color="blue" onclick="toggleSubmenu(this)">
+                            <div class="card-icon blue">
+                                <i class="fas fa-search"></i>
+                            </div>
+                            <h3 class="card-title">题库查询</h3>
+                            <p class="card-desc">海量试题资源，精准搜索</p>
+                            <div class="card-arrow">
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="submenu">
+                                <div class="submenu-item" onclick="handleSubmenu(event, '按科目查询')">
+                                    <i class="fas fa-chevron-right"></i>
+                                    <span>按科目查询</span>
+                                </div>
+                                <div class="submenu-item" onclick="handleSubmenu(event, '按难度筛选')">
+                                    <i class="fas fa-chevron-right"></i>
+                                    <span>按难度筛选</span>
+                                </div>
+                                <div class="submenu-item" onclick="handleSubmenu(event, '按题型筛选')">
+                                    <i class="fas fa-chevron-right"></i>
+                                    <span>按题型筛选</span>
+                                </div>
+                                <div class="submenu-item" onclick="handleSubmenu(event, '收藏题目')">
+                                    <i class="fas fa-chevron-right"></i>
+                                    <span>收藏题目</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="feature-card" data-color="green" onclick="toggleSubmenu(this)">
+                            <div class="card-icon green">
+                                <i class="fas fa-book"></i>
+                            </div>
+                            <h3 class="card-title">科目列表</h3>
+                            <p class="card-desc">全部课程科目，系统学习</p>
+                            <div class="card-arrow">
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="submenu">
+                                <div class="submenu-item" onclick="handleSubmenu(event, '计算机类')">
+                                    <i class="fas fa-chevron-right"></i>
+                                    <span>计算机类</span>
+                                </div>
+                                <div class="submenu-item" onclick="handleSubmenu(event, '数学类')">
+                                    <i class="fas fa-chevron-right"></i>
+                                    <span>数学类</span>
+                                </div>
+                                <div class="submenu-item" onclick="handleSubmenu(event, '语言类')">
+                                    <i class="fas fa-chevron-right"></i>
+                                    <span>语言类</span>
+                                </div>
+                                <div class="submenu-item" onclick="handleSubmenu(event, '理工类')">
+                                    <i class="fas fa-chevron-right"></i>
+                                    <span>理工类</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="feature-card" data-color="orange" onclick="toggleSubmenu(this)">
+                            <div class="card-icon orange">
+                                <i class="fas fa-calendar-check"></i>
+                            </div>
+                            <h3 class="card-title">考试安排</h3>
+                            <p class="card-desc">近期考试计划，一目了然</p>
+                            <div class="card-arrow">
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="submenu">
+                                <div class="submenu-item" onclick="handleSubmenu(event, '即将开始')">
+                                    <i class="fas fa-chevron-right"></i>
+                                    <span>即将开始</span>
+                                </div>
+                                <div class="submenu-item" onclick="handleSubmenu(event, '进行中')">
+                                    <i class="fas fa-chevron-right"></i>
+                                    <span>进行中</span>
+                                </div>
+                                <div class="submenu-item" onclick="handleSubmenu(event, '已结束')">
+                                    <i class="fas fa-chevron-right"></i>
+                                    <span>已结束</span>
+                                </div>
+                                <div class="submenu-item" onclick="handleSubmenu(event, '考试日历')">
+                                    <i class="fas fa-chevron-right"></i>
+                                    <span>考试日历</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="feature-card" data-color="red" onclick="toggleSubmenu(this)">
+                            <div class="card-icon red">
+                                <i class="fas fa-bell"></i>
+                            </div>
+                            <h3 class="card-title">系统通知</h3>
+                            <p class="card-desc">最新公告消息，及时获取</p>
+                            <div class="card-arrow">
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="submenu">
+                                <div class="submenu-item" onclick="handleSubmenu(event, '考试通知')">
+                                    <i class="fas fa-chevron-right"></i>
+                                    <span>考试通知</span>
+                                </div>
+                                <div class="submenu-item" onclick="handleSubmenu(event, '成绩发布')">
+                                    <i class="fas fa-chevron-right"></i>
+                                    <span>成绩发布</span>
+                                </div>
+                                <div class="submenu-item" onclick="handleSubmenu(event, '系统公告')">
+                                    <i class="fas fa-chevron-right"></i>
+                                    <span>系统公告</span>
+                                </div>
+                                <div class="submenu-item" onclick="handleSubmenu(event, '全部已读')">
+                                    <i class="fas fa-chevron-right"></i>
+                                    <span>全部已读</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 个人中心 -->
+                <div class="page-content" id="page-profile">
+                    <div class="profile-header">
+                        <div class="profile-avatar-large" id="profileAvatar">张</div>
+                        <div class="profile-info">
+                            <h2 class="profile-name" id="profileName">张三</h2>
+                            <p class="profile-meta">计算机科学与技术专业 · 2024级本科生</p>
+                            <div class="profile-tags">
+                                <span class="profile-tag primary">学生</span>
+                                <span class="profile-tag">学号: 2024001</span>
+                                <span class="profile-tag">已认证</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="profile-grid">
+                        <div class="profile-card">
+                            <h3 class="profile-card-title">
+                                <i class="fas fa-id-card" style="color: var(--primary);"></i>
+                                基本信息
+                            </h3>
+                            <div class="info-row">
+                                <span class="info-label">真实姓名</span>
+                                <span class="info-value">张三</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">性别</span>
+                                <span class="info-value">男</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">出生日期</span>
+                                <span class="info-value">2005年3月15日</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">手机号码</span>
+                                <span class="info-value">138****8888</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">电子邮箱</span>
+                                <span class="info-value">zhangsan@example.com</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">所在院系</span>
+                                <span class="info-value">计算机学院</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">入学年份</span>
+                                <span class="info-value">2024年</span>
+                            </div>
+                        </div>
+
+                        <div class="profile-card">
+                            <h3 class="profile-card-title">
+                                <i class="fas fa-trophy" style="color: var(--warning);"></i>
+                                考试成就
+                            </h3>
+                            <div class="achievement-grid">
+                                <div class="achievement-item">
+                                    <div class="achievement-icon" style="background: rgba(59, 130, 246, 0.1); color: #3b82f6;">
+                                        <i class="fas fa-clipboard-check"></i>
+                                    </div>
+                                    <div class="achievement-value">17</div>
+                                    <div class="achievement-label">参加考试</div>
+                                </div>
+                                <div class="achievement-item">
+                                    <div class="achievement-icon" style="background: rgba(16, 185, 129, 0.1); color: #10b981;">
+                                        <i class="fas fa-check-circle"></i>
+                                    </div>
+                                    <div class="achievement-value">14</div>
+                                    <div class="achievement-label">通过考试</div>
+                                </div>
+                                <div class="achievement-item">
+                                    <div class="achievement-icon" style="background: rgba(245, 158, 11, 0.1); color: #f59e0b;">
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                    <div class="achievement-value">87.5</div>
+                                    <div class="achievement-label">平均分数</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="profile-grid" style="margin-top: 24px;">
+                        <div class="profile-card">
+                            <h3 class="profile-card-title">
+                                <i class="fas fa-chart-line" style="color: var(--success);"></i>
+                                成绩统计
+                            </h3>
+                            <div class="achievement-grid" style="grid-template-columns: repeat(4, 1fr);">
+                                <div class="achievement-item">
+                                    <div class="achievement-value" style="color: #10b981;">92</div>
+                                    <div class="achievement-label">最高分</div>
+                                </div>
+                                <div class="achievement-item">
+                                    <div class="achievement-value" style="color: #3b82f6;">78</div>
+                                    <div class="achievement-label">最低分</div>
+                                </div>
+                                <div class="achievement-item">
+                                    <div class="achievement-value" style="color: #f59e0b;">82%</div>
+                                    <div class="achievement-label">及格率</div>
+                                </div>
+                                <div class="achievement-item">
+                                    <div class="achievement-value" style="color: #8b5cf6;">Top 15%</div>
+                                    <div class="achievement-label">班级排名</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="profile-card">
+                            <h3 class="profile-card-title">
+                                <i class="fas fa-shield-alt" style="color: var(--danger);"></i>
+                                账号安全
+                            </h3>
+                            <div class="info-row">
+                                <span class="info-label">登录密码</span>
+                                <span class="info-value" style="color: var(--success);">已设置</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">手机绑定</span>
+                                <span class="info-value" style="color: var(--success);">已绑定</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">邮箱绑定</span>
+                                <span class="info-value" style="color: var(--success);">已绑定</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">微信绑定</span>
+                                <span class="info-value" style="color: var(--text-secondary);">未绑定</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 我的考试 -->
+                <div class="page-content" id="page-exams">
+                    <div class="exam-calendar">
+                        <div class="calendar-header">
+                            <h2 class="section-title" style="margin-bottom: 0;">2025年1月</h2>
+                            <div class="calendar-nav">
+                                <button onclick="changeMonth(-1)"><i class="fas fa-chevron-left"></i></button>
+                                <button onclick="changeMonth(1)"><i class="fas fa-chevron-right"></i></button>
+                            </div>
+                        </div>
+                        <div class="calendar-grid" id="examCalendar">
+                            <!-- 日历由JS生成 -->
+                        </div>
+                    </div>
+
+                    <div class="exam-list">
+                        <h2 class="section-title">即将开始的考试</h2>
+                        <div class="exam-item">
+                            <div class="exam-date">
+                                <div class="exam-date-day">15</div>
+                                <div class="exam-date-month">1月</div>
+                            </div>
+                            <div class="exam-info">
+                                <div class="exam-title">高等数学期末考试</div>
+                                <div class="exam-meta">
+                                    <i class="fas fa-clock"></i> 14:00-16:00 · 
+                                    <i class="fas fa-map-marker-alt"></i> 教学楼A301 · 
+                                    <i class="fas fa-hourglass-half"></i> 120分钟
+                                </div>
+                            </div>
+                            <span class="exam-status upcoming">即将开始</span>
+                        </div>
+                        <div class="exam-item">
+                            <div class="exam-date">
+                                <div class="exam-date-day">18</div>
+                                <div class="exam-date-month">1月</div>
+                            </div>
+                            <div class="exam-info">
+                                <div class="exam-title">大学英语四级模拟</div>
+                                <div class="exam-meta">
+                                    <i class="fas fa-clock"></i> 09:00-11:20 · 
+                                    <i class="fas fa-map-marker-alt"></i> 语音室B205 · 
+                                    <i class="fas fa-hourglass-half"></i> 140分钟
+                                </div>
+                            </div>
+                            <span class="exam-status upcoming">即将开始</span>
+                        </div>
+                        <div class="exam-item">
+                            <div class="exam-date">
+                                <div class="exam-date-day">22</div>
+                                <div class="exam-date-month">1月</div>
+                            </div>
+                            <div class="exam-info">
+                                <div class="exam-title">数据结构课程设计答辩</div>
+                                <div class="exam-meta">
+                                    <i class="fas fa-clock"></i> 14:00-17:00 · 
+                                    <i class="fas fa-map-marker-alt"></i> 实验室C402 · 
+                                    <i class="fas fa-hourglass-half"></i> 180分钟
+                                </div>
+                            </div>
+                            <span class="exam-status upcoming">即将开始</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 我的成绩 -->
+                <div class="page-content" id="page-scores">
+                    <div class="chart-container">
+                        <div class="chart-header">
+                            <h3 class="chart-title">成绩趋势图</h3>
+                            <div class="chart-legend">
+                                <div class="legend-item">
+                                    <div class="legend-dot" style="background: #3b82f6;"></div>
+                                    <span>我的成绩</span>
+                                </div>
+                                <div class="legend-item">
+                                    <div class="legend-dot" style="background: #e2e8f0;"></div>
+                                    <span>班级平均</span>
+                                </div>
+                            </div>
+                        </div>
+                        <svg class="chart-svg" id="scoreChart" viewBox="0 0 800 300" preserveAspectRatio="none">
+                            <!-- 图表由JS生成 -->
+                        </svg>
+                    </div>
+
+                    <h2 class="section-title">成绩明细</h2>
+                    <div class="score-table">
+                        <div class="score-table-header">
+                            <span>考试科目</span>
+                            <span>考试时间</span>
+                            <span>成绩</span>
+                            <span>等级</span>
+                        </div>
+                        <div class="score-table-row">
+                            <span>高等数学（上）</span>
+                            <span>2024-12-28</span>
+                            <span><strong>92</strong> / 100</span>
+                            <span><span class="score-badge excellent">优秀</span></span>
+                        </div>
+                        <div class="score-table-row">
+                            <span>大学英语</span>
+                            <span>2024-12-25</span>
+                            <span><strong>88</strong> / 100</span>
+                            <span><span class="score-badge good">良好</span></span>
+                        </div>
+                        <div class="score-table-row">
+                            <span>程序设计基础</span>
+                            <span>2024-12-22</span>
+                            <span><strong>95</strong> / 100</span>
+                            <span><span class="score-badge excellent">优秀</span></span>
+                        </div>
+                        <div class="score-table-row">
+                            <span>线性代数</span>
+                            <span>2024-12-20</span>
+                            <span><strong>76</strong> / 100</span>
+                            <span><span class="score-badge pass">及格</span></span>
+                        </div>
+                        <div class="score-table-row">
+                            <span>离散数学</span>
+                            <span>2024-12-18</span>
+                            <span><strong>85</strong> / 100</span>
+                            <span><span class="score-badge good">良好</span></span>
+                        </div>
+                        <div class="score-table-row">
+                            <span>大学物理</span>
+                            <span>2024-12-15</span>
+                            <span><strong>82</strong> / 100</span>
+                            <span><span class="score-badge good">良好</span></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 错题本 -->
+                <div class="page-content" id="page-mistakes">
+                    <div class="profile-card">
+                        <h3 class="profile-card-title">
+                            <i class="fas fa-book-open" style="color: var(--danger);"></i>
+                            错题本
+                        </h3>
+                        <p style="color: var(--text-secondary); text-align: center; padding: 40px;">
+                            <i class="fas fa-construction" style="font-size: 48px; display: block; margin-bottom: 16px; opacity: 0.3;"></i>
+                            错题本功能开发中...
+                        </p>
+                    </div>
+                </div>
+
+                <!-- 练习模式 -->
+                <div class="page-content" id="page-practice">
+                    <div class="profile-card">
+                        <h3 class="profile-card-title">
+                            <i class="fas fa-pen-fancy" style="color: var(--success);"></i>
+                            练习模式
+                        </h3>
+                        <p style="color: var(--text-secondary); text-align: center; padding: 40px;">
+                            <i class="fas fa-construction" style="font-size: 48px; display: block; margin-bottom: 16px; opacity: 0.3;"></i>
+                            练习模式功能开发中...
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- 设置面板 -->
+    <div class="overlay" id="settingsOverlay" onclick="closeSettings()"></div>
+    <div class="settings-panel" id="settingsPanel">
+        <div class="settings-header">
+            <h2>设置</h2>
+            <button class="settings-close" onclick="closeSettings()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="settings-body">
+            <div class="settings-section">
+                <div class="settings-section-title">账号绑定</div>
+                <div class="settings-item">
+                    <div class="settings-item-info">
+                        <div class="settings-item-icon email">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="settings-item-text">
+                            <h4>邮箱绑定</h4>
+                            <p id="emailStatus">未绑定</p>
+                        </div>
+                    </div>
+                    <button class="settings-item-action" id="emailBtn" onclick="bindEmail()">去绑定</button>
+                </div>
+                <div class="settings-item">
+                    <div class="settings-item-info">
+                        <div class="settings-item-icon wechat">
+                            <i class="fab fa-weixin"></i>
+                        </div>
+                        <div class="settings-item-text">
+                            <h4>微信绑定</h4>
+                            <p id="wechatStatus">未绑定</p>
+                        </div>
+                    </div>
+                    <button class="settings-item-action" id="wechatBtn" onclick="bindWechat()">去绑定</button>
+                </div>
+                <div class="settings-item">
+                    <div class="settings-item-info">
+                        <div class="settings-item-icon phone">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div class="settings-item-text">
+                            <h4>手机绑定</h4>
+                            <p id="phoneStatus">未绑定</p>
+                        </div>
+                    </div>
+                    <button class="settings-item-action" id="phoneBtn" onclick="bindPhone()">去绑定</button>
+                </div>
+            </div>
+            <div class="settings-section">
+                <div class="settings-section-title">系统设置</div>
+                <div class="settings-item">
+                    <div class="settings-item-info">
+                        <div class="settings-item-icon" style="background: rgba(139, 92, 246, 0.1); color: #8b5cf6;">
+                            <i class="fas fa-bell"></i>
+                        </div>
+                        <div class="settings-item-text">
+                            <h4>消息通知</h4>
+                            <p>开启系统消息推送</p>
+                        </div>
+                    </div>
+                    <button class="settings-item-action bound">已开启</button>
+                </div>
+                <div class="settings-item">
+                    <div class="settings-item-info">
+                        <div class="settings-item-icon" style="background: rgba(6, 182, 212, 0.1); color: #06b6d4;">
+                            <i class="fas fa-moon"></i>
+                        </div>
+                        <div class="settings-item-text">
+                            <h4>深色模式</h4>
+                            <p>切换界面主题</p>
+                        </div>
+                    </div>
+                    <button class="settings-item-action" onclick="toggleDarkMode()">切换</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 悬浮球 -->
+    <div class="float-ball" id="floatBall">
+        <i class="fas fa-plus float-ball-icon-inner" id="floatBallIcon"></i>
+    </div>
+    <div class="float-menu" id="floatMenu">
+        <div class="float-menu-item ai" data-label="AI助手" onclick="handleFloatAction('ai')">
+            <i class="fas fa-robot"></i>
+        </div>
+        <div class="float-menu-item nav" data-label="快捷导航" onclick="handleFloatAction('nav')">
+            <i class="fas fa-compass"></i>
+        </div>
+        <div class="float-menu-item exam" data-label="我的考试" onclick="handleFloatAction('exam')">
+            <i class="fas fa-file-alt"></i>
+        </div>
+        <div class="float-menu-item score" data-label="成绩查询" onclick="handleFloatAction('score')">
+            <i class="fas fa-chart-line"></i>
+        </div>
+        <div class="float-menu-item msg" data-label="消息中心" onclick="handleFloatAction('msg')">
+            <i class="fas fa-comment-dots"></i>
+        </div>
+        <div class="float-menu-item help" data-label="帮助中心" onclick="handleFloatAction('help')">
+            <i class="fas fa-question-circle"></i>
+        </div>
+    </div>
+
+    <script>
+        // ========== 全局变量和工具函数 ==========
+        let currentUser = null;
+        let selectedRole = 'STUDENT';
+        let registerRole = 'STUDENT';
+        let currentPage = 'home';
+
+        const usersDB = [
+            { username: '2024001', password: '123456', name: '张三', role: 'STUDENT', email: 'zhangsan@example.com' },
+            { username: 'T2024001', password: '123456', name: '李教授', role: 'TEACHER', email: 'prof.li@example.com' }
+        ];
+
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `
+                <div class="toast-icon">
+                    <i class="fas ${type === 'success' ? 'fa-check' : 'fa-exclamation-circle'}"></i>
+                </div>
+                <div class="toast-content">
+                    <h4>${type === 'success' ? '成功' : '错误'}</h4>
+                    <p>${message}</p>
+                </div>
+            `;
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.classList.add('hide');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        // ========== 登录/注册 ==========
+        function togglePassword(inputId, icon) {
+            const input = document.getElementById(inputId);
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+
+        function selectRole(btn) {
+            document.querySelectorAll('#loginPage .role-tab').forEach(tab => tab.classList.remove('active'));
+            btn.classList.add('active');
+            selectedRole = btn.dataset.role;
+        }
+
+        function selectRegisterRole(btn) {
+            document.querySelectorAll('#registerPage .role-tab').forEach(tab => tab.classList.remove('active'));
+            btn.classList.add('active');
+            registerRole = btn.dataset.role;
+        }
+
+        function showRegister() {
+            document.getElementById('loginPage').classList.add('hidden');
+            document.getElementById('registerPage').classList.remove('hidden');
+        }
+
+        function showLogin() {
+            document.getElementById('registerPage').classList.add('hidden');
+            document.getElementById('loginPage').classList.remove('hidden');
+        }
+
+        // ========== 验证码 ==========
+        let loginCaptchaCode = '';
+        let regCaptchaCode = '';
+
+        function generateCaptcha() {
+            const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+            let code = '';
+            for (let i = 0; i < 4; i++) {
+                code += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return code;
+        }
+
+        function refreshCaptcha(type) {
+            const code = generateCaptcha();
+            if (type === 'login') {
+                loginCaptchaCode = code;
+                document.getElementById('loginCaptchaText').textContent = code;
+            } else {
+                regCaptchaCode = code;
+                document.getElementById('regCaptchaText').textContent = code;
+            }
+        }
+
+        // ========== 登录处理 ==========
+        function handleLogin(e) {
+            e.preventDefault();
+            const btn = document.getElementById('loginBtn');
+            const username = document.getElementById('loginUsername').value;
+            const password = document.getElementById('loginPassword').value;
+            const captcha = document.getElementById('loginCaptcha').value.toUpperCase();
+            const errorDiv = document.getElementById('loginError');
+            const errorText = document.getElementById('loginErrorText');
+
+            if (captcha !== loginCaptchaCode) {
+                errorText.textContent = '验证码错误';
+                errorDiv.classList.add('show');
+                refreshCaptcha('login');
+                showToast('验证码错误，请重新输入', 'error');
+                return;
+            }
+
+            btn.innerHTML = '<div class="spinner"></div>';
+            btn.disabled = true;
+
+            setTimeout(() => {
+                const user = usersDB.find(u => u.username === username && u.password === password);
+
+                if (user && user.role === selectedRole) {
+                    currentUser = user;
+                    showToast('登录成功！欢迎回来，' + user.name);
+                    showDashboard();
+                } else {
+                    errorText.textContent = '用户名或密码错误';
+                    errorDiv.classList.add('show');
+                    showToast('登录失败，请检查用户名和密码', 'error');
+                    refreshCaptcha('login');
+                }
+
+                btn.innerHTML = '<span>登录</span><i class="fas fa-arrow-right"></i>';
+                btn.disabled = false;
+            }, 800);
+        }
+
+        // ========== 注册处理 ==========
+        function handleRegister(e) {
+            e.preventDefault();
+            const btn = document.getElementById('registerBtn');
+            const username = document.getElementById('regUsername').value;
+            const email = document.getElementById('regEmail').value;
+            const name = document.getElementById('regName').value;
+            const password = document.getElementById('regPassword').value;
+            const confirmPassword = document.getElementById('regConfirmPassword').value;
+            const captcha = document.getElementById('regCaptcha').value.toUpperCase();
+            const errorDiv = document.getElementById('registerError');
+            const errorText = document.getElementById('registerErrorText');
+
+            if (captcha !== regCaptchaCode) {
+                errorText.textContent = '验证码错误';
+                errorDiv.classList.add('show');
+                refreshCaptcha('reg');
+                showToast('验证码错误，请重新输入', 'error');
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                errorText.textContent = '两次输入的密码不一致';
+                errorDiv.classList.add('show');
+                return;
+            }
+
+            if (password.length < 6) {
+                errorText.textContent = '密码长度至少6位';
+                errorDiv.classList.add('show');
+                return;
+            }
+
+            if (usersDB.find(u => u.username === username)) {
+                errorText.textContent = '用户名已存在';
+                errorDiv.classList.add('show');
+                refreshCaptcha('reg');
+                return;
+            }
+
+            btn.innerHTML = '<div class="spinner"></div>';
+            btn.disabled = true;
+
+            setTimeout(() => {
+                usersDB.push({ username, email, name, password, role: registerRole });
+                showToast('注册成功！请登录');
+                showLogin();
+                btn.innerHTML = '<span>注册</span><i class="fas fa-user-plus"></i>';
+                btn.disabled = false;
+                errorDiv.classList.remove('show');
+            }, 800);
+        }
+
+        // ========== 仪表盘显示 ==========
+        function showDashboard() {
+            document.getElementById('loginPage').classList.add('hidden');
+            document.getElementById('registerPage').classList.add('hidden');
+            document.getElementById('dashboard').classList.add('show');
+
+            document.getElementById('userName').textContent = currentUser.name;
+            document.getElementById('userAvatar').textContent = currentUser.name.charAt(0);
+            document.getElementById('userRole').textContent = currentUser.role === 'STUDENT' ? '学生' : '教师';
+            document.getElementById('profileAvatar').textContent = currentUser.name.charAt(0);
+            document.getElementById('profileName').textContent = currentUser.name;
+
+            if (currentUser.role === 'STUDENT') {
+                document.getElementById('studentMenu').classList.remove('hidden');
+                document.getElementById('teacherMenu').classList.add('hidden');
+            } else {
+                document.getElementById('studentMenu').classList.add('hidden');
+                document.getElementById('teacherMenu').classList.remove('hidden');
+            }
+
+            // 初始化页面
+            initExamCalendar();
+            initScoreChart();
+        }
+
+        function logout() {
+            currentUser = null;
+            document.getElementById('dashboard').classList.remove('show');
+            document.getElementById('loginPage').classList.remove('hidden');
+            document.getElementById('loginForm').reset();
+            document.getElementById('loginError').classList.remove('show');
+            showToast('已退出登录');
+        }
+
+        // ========== 页面切换 ==========
+        function switchPage(page, navItem) {
+            currentPage = page;
+
+            // 更新导航状态
+            document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+            if (navItem) navItem.classList.add('active');
+
+            // 更新页面标题
+            const titles = {
+                'home': '首页',
+                'profile': '个人中心',
+                'exams': '我的考试',
+                'scores': '我的成绩',
+                'mistakes': '错题本',
+                'practice': '练习模式'
+            };
+            document.getElementById('pageTitle').textContent = titles[page] || '首页';
+
+            // 切换页面内容
+            document.querySelectorAll('.page-content').forEach(content => content.classList.remove('active'));
+            document.getElementById('page-' + page).classList.add('active');
+        }
+
+        function setActiveNav(item) {
+            document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+            item.classList.add('active');
+        }
+
+        // ========== 子菜单切换 ==========
+        function toggleSubmenu(card) {
+            const submenu = card.querySelector('.submenu');
+            const arrow = card.querySelector('.card-arrow i');
+            const isOpen = submenu.classList.contains('show');
+
+            // 关闭所有其他子菜单和 active 状态
+            document.querySelectorAll('.feature-card').forEach(c => {
+                if (c !== card) {
+                    c.querySelector('.submenu').classList.remove('show');
+                    c.classList.remove('active');
+                    const a = c.querySelector('.card-arrow i');
+                    a.classList.remove('fa-chevron-up');
+                    a.classList.add('fa-chevron-down');
+                }
+            });
+
+            if (!isOpen) {
+                submenu.classList.add('show');
+                card.classList.add('active');
+                arrow.classList.remove('fa-chevron-down');
+                arrow.classList.add('fa-chevron-up');
+            } else {
+                card.classList.remove('active');
+                arrow.classList.remove('fa-chevron-up');
+                arrow.classList.add('fa-chevron-down');
+            }
+        }
+
+        function handleSubmenu(e, action) {
+            e.stopPropagation();
+            showToast(`正在打开: ${action}`);
+        }
+
+        // ========== 设置面板 ==========
+        function openSettings() {
+            document.getElementById('settingsPanel').classList.add('show');
+            document.getElementById('settingsOverlay').classList.add('show');
+        }
+
+        function closeSettings() {
+            document.getElementById('settingsPanel').classList.remove('show');
+            document.getElementById('settingsOverlay').classList.remove('show');
+        }
+
+        function bindEmail() {
+            const email = prompt('请输入邮箱地址：');
+            if (email && email.includes('@')) {
+                document.getElementById('emailStatus').textContent = email;
+                document.getElementById('emailBtn').textContent = '已绑定';
+                document.getElementById('emailBtn').classList.add('bound');
+                showToast('邮箱绑定成功');
+            } else if (email) {
+                showToast('请输入有效的邮箱地址', 'error');
+            }
+        }
+
+        function bindWechat() {
+            showToast('正在跳转微信扫码绑定...');
+            setTimeout(() => {
+                document.getElementById('wechatStatus').textContent = '已绑定';
+                document.getElementById('wechatBtn').textContent = '已绑定';
+                document.getElementById('wechatBtn').classList.add('bound');
+                showToast('微信绑定成功');
+            }, 1500);
+        }
+
+        function bindPhone() {
+            const phone = prompt('请输入手机号码：');
+            if (phone && /^1[3-9]\d{9}$/.test(phone)) {
+                document.getElementById('phoneStatus').textContent = phone.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2');
+                document.getElementById('phoneBtn').textContent = '已绑定';
+                document.getElementById('phoneBtn').classList.add('bound');
+                showToast('手机绑定成功');
+            } else if (phone) {
+                showToast('请输入有效的手机号码', 'error');
+            }
+        }
+
+        function toggleDarkMode() {
+            showToast('深色模式功能开发中...');
+        }
+
+        // ========== 通透模式 ==========
+        let isTransparent = false;
+
+        function toggleTransparentMode() {
+            isTransparent = !isTransparent;
+            const dashboard = document.getElementById('dashboard');
+            const paletteBtn = document.querySelector('.sidebar-footer .nav-item');
+
+            if (isTransparent) {
+                dashboard.classList.add('transparent-mode');
+                paletteBtn.classList.add('active-palette');
+                showToast('通透模式已开启');
+            } else {
+                dashboard.classList.remove('transparent-mode');
+                paletteBtn.classList.remove('active-palette');
+                showToast('通透模式已关闭');
+            }
+        }
+
+        // ========== 考试日历 ==========
+        function initExamCalendar() {
+            const calendar = document.getElementById('examCalendar');
+            if (!calendar) return;
+
+            const days = ['日', '一', '二', '三', '四', '五', '六'];
+            const exams = {
+                15: { title: '高等数学期末考试', time: '14:00-16:00', location: '教学楼A301' },
+                18: { title: '大学英语四级模拟', time: '09:00-11:20', location: '语音室B205' },
+                22: { title: '数据结构课程设计答辩', time: '14:00-17:00', location: '实验室C402' }
+            };
+
+            // 星期标题
+            days.forEach(day => {
+                const header = document.createElement('div');
+                header.className = 'calendar-day-header';
+                header.textContent = day;
+                calendar.appendChild(header);
+            });
+
+            // 1月1日是周三，所以前面补3天
+            for (let i = 0; i < 3; i++) {
+                const day = document.createElement('div');
+                day.className = 'calendar-day other-month';
+                day.innerHTML = `<div class="calendar-day-number">${29 + i}</div>`;
+                calendar.appendChild(day);
+            }
+
+            // 1月日期
+            for (let i = 1; i <= 31; i++) {
+                const day = document.createElement('div');
+                day.className = 'calendar-day';
+                if (i === new Date().getDate()) day.classList.add('today');
+                if (exams[i]) {
+                    day.classList.add('has-exam');
+                    day.dataset.exam = JSON.stringify(exams[i]);
+                }
+                day.innerHTML = `<div class="calendar-day-number">${i}</div>`;
+
+                // 悬浮提示
+                day.addEventListener('mouseenter', function(e) {
+                    if (this.dataset.exam) {
+                        const exam = JSON.parse(this.dataset.exam);
+                        const tooltip = document.getElementById('examTooltip');
+                        tooltip.querySelector('.exam-tooltip-title').textContent = exam.title;
+                        tooltip.querySelector('.exam-tooltip-info').innerHTML = `
+                            <i class="fas fa-clock"></i> ${exam.time}<br>
+                            <i class="fas fa-map-marker-alt"></i> ${exam.location}
+                        `;
+                        tooltip.classList.add('show');
+                    }
+                });
+
+                day.addEventListener('mousemove', function(e) {
+                    const tooltip = document.getElementById('examTooltip');
+                    tooltip.style.left = (e.clientX + 15) + 'px';
+                    tooltip.style.top = (e.clientY + 15) + 'px';
+                });
+
+                day.addEventListener('mouseleave', function() {
+                    document.getElementById('examTooltip').classList.remove('show');
+                });
+
+                calendar.appendChild(day);
+            }
+        }
+
+        function changeMonth(delta) {
+            showToast(delta > 0 ? '下一个月' : '上一个月');
+        }
+
+        // ========== 成绩图表 ==========
+        function initScoreChart() {
+            const svg = document.getElementById('scoreChart');
+            if (!svg) return;
+
+            const scores = [
+                { date: '10-15', score: 82, avg: 78 },
+                { date: '10-22', score: 88, avg: 80 },
+                { date: '10-28', score: 76, avg: 75 },
+                { date: '11-05', score: 92, avg: 82 },
+                { date: '11-12', score: 85, avg: 79 },
+                { date: '11-20', score: 90, avg: 81 },
+                { date: '11-28', score: 88, avg: 80 },
+                { date: '12-05', score: 95, avg: 83 },
+                { date: '12-12', score: 87, avg: 79 },
+                { date: '12-20', score: 92, avg: 82 }
+            ];
+
+            const width = 800;
+            const height = 300;
+            const padding = { top: 20, right: 30, bottom: 40, left: 50 };
+            const chartWidth = width - padding.left - padding.right;
+            const chartHeight = height - padding.top - padding.bottom;
+
+            // 清空SVG
+            svg.innerHTML = '';
+
+            // 网格线
+            for (let i = 0; i <= 5; i++) {
+                const y = padding.top + (chartHeight / 5) * i;
+                const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                line.setAttribute('x1', padding.left);
+                line.setAttribute('y1', y);
+                line.setAttribute('x2', width - padding.right);
+                line.setAttribute('y2', y);
+                line.setAttribute('stroke', '#e2e8f0');
+                line.setAttribute('stroke-width', '1');
+                svg.appendChild(line);
+
+                // Y轴标签
+                const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                text.setAttribute('x', padding.left - 10);
+                text.setAttribute('y', y + 4);
+                text.setAttribute('text-anchor', 'end');
+                text.setAttribute('fill', '#64748b');
+                text.setAttribute('font-size', '12');
+                text.textContent = 100 - i * 20;
+                svg.appendChild(text);
+            }
+
+            // 生成路径点
+            function getPoints(data, key) {
+                return data.map((d, i) => {
+                    const x = padding.left + (chartWidth / (data.length - 1)) * i;
+                    const y = padding.top + chartHeight - (d[key] / 100) * chartHeight;
+                    return { x, y, ...d };
+                });
+            }
+
+            const myPoints = getPoints(scores, 'score');
+            const avgPoints = getPoints(scores, 'avg');
+
+            // 绘制平均线
+            const avgPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            const avgD = avgPoints.map((p, i) => (i === 0 ? 'M' : 'L') + `${p.x},${p.y}`).join(' ');
+            avgPath.setAttribute('d', avgD);
+            avgPath.setAttribute('fill', 'none');
+            avgPath.setAttribute('stroke', '#e2e8f0');
+            avgPath.setAttribute('stroke-width', '2');
+            avgPath.setAttribute('stroke-dasharray', '5,5');
+            svg.appendChild(avgPath);
+
+            // 绘制我的成绩线
+            const myPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            const myD = myPoints.map((p, i) => (i === 0 ? 'M' : 'L') + `${p.x},${p.y}`).join(' ');
+            myPath.setAttribute('d', myD);
+            myPath.setAttribute('fill', 'none');
+            myPath.setAttribute('stroke', '#3b82f6');
+            myPath.setAttribute('stroke-width', '3');
+            myPath.setAttribute('stroke-linecap', 'round');
+            myPath.setAttribute('stroke-linejoin', 'round');
+            svg.appendChild(myPath);
+
+            // 绘制数据点和交互
+            myPoints.forEach((p, i) => {
+                // 外圈
+                const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                circle.setAttribute('cx', p.x);
+                circle.setAttribute('cy', p.y);
+                circle.setAttribute('r', '6');
+                circle.setAttribute('fill', '#3b82f6');
+                circle.setAttribute('stroke', 'white');
+                circle.setAttribute('stroke-width', '2');
+                circle.style.cursor = 'pointer';
+
+                // 悬浮事件
+                circle.addEventListener('mouseenter', function(e) {
+                    this.setAttribute('r', '9');
+                    const tooltip = document.getElementById('chartTooltip');
+                    tooltip.querySelector('.chart-tooltip-date').textContent = p.date;
+                    tooltip.querySelector('.chart-tooltip-score').textContent = `成绩: ${p.score}分`;
+                    tooltip.classList.add('show');
+                });
+
+                circle.addEventListener('mousemove', function(e) {
+                    const tooltip = document.getElementById('chartTooltip');
+                    tooltip.style.left = (e.clientX + 10) + 'px';
+                    tooltip.style.top = (e.clientY - 40) + 'px';
+                });
+
+                circle.addEventListener('mouseleave', function() {
+                    this.setAttribute('r', '6');
+                    document.getElementById('chartTooltip').classList.remove('show');
+                });
+
+                svg.appendChild(circle);
+
+                // X轴标签
+                if (i % 2 === 0) {
+                    const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                    text.setAttribute('x', p.x);
+                    text.setAttribute('y', height - 10);
+                    text.setAttribute('text-anchor', 'middle');
+                    text.setAttribute('fill', '#64748b');
+                    text.setAttribute('font-size', '12');
+                    text.textContent = p.date;
+                    svg.appendChild(text);
+                }
+            });
+        }
+
+        // ========== 悬浮球 ==========
+        let floatMenuOpen = false;
+        let isDragging = false;
+        let dragOffsetX = 0, dragOffsetY = 0;
+        let hasMoved = false;
+        let ballX = 0, ballY = 0;
+        let floatBall = null;
+        let floatMenu = null;
+
+        function initFloatBall() {
+            floatBall = document.getElementById('floatBall');
+            floatMenu = document.getElementById('floatMenu');
+            if (!floatBall || !floatMenu) return;
+
+            ballX = window.innerWidth - 86;
+            ballY = window.innerHeight - 86;
+
+            floatBall.style.left = ballX + 'px';
+            floatBall.style.top = ballY + 'px';
+            floatBall.style.right = 'auto';
+            floatBall.style.bottom = 'auto';
+            updateMenuPosition();
+
+            floatBall.addEventListener('mousedown', onDragStart);
+            document.addEventListener('mousemove', onDragMove);
+            document.addEventListener('mouseup', onDragEnd);
+
+            floatBall.addEventListener('touchstart', onDragStart, { passive: false });
+            document.addEventListener('touchmove', onDragMove, { passive: false });
+            document.addEventListener('touchend', onDragEnd);
+        }
+
+        function updateMenuPosition() {
+            if (!floatMenu) return;
+            floatMenu.style.left = ballX + 'px';
+            floatMenu.style.top = ballY + 'px';
+        }
+
+        function getPointer(e) {
+            if (e.touches && e.touches.length > 0) {
+                return { x: e.touches[0].clientX, y: e.touches[0].clientY };
+            }
+            return { x: e.clientX, y: e.clientY };
+        }
+
+        function onDragStart(e) {
+            if (!floatBall) return;
+            if (floatMenuOpen) {
+                toggleFloatMenu();
+                return;
+            }
+
+            isDragging = true;
+            hasMoved = false;
+            const p = getPointer(e);
+            dragOffsetX = p.x - ballX;
+            dragOffsetY = p.y - ballY;
+            floatBall.classList.add('dragging');
+            e.preventDefault();
+        }
+
+        function onDragMove(e) {
+            if (!isDragging) return;
+            const p = getPointer(e);
+            const newX = p.x - dragOffsetX;
+            const newY = p.y - dragOffsetY;
+
+            const dx = newX - ballX;
+            const dy = newY - ballY;
+            if (Math.abs(dx) > 5 || Math.abs(dy) > 5) {
+                hasMoved = true;
+            }
+
+            ballX = Math.max(0, Math.min(window.innerWidth - 56, newX));
+            ballY = Math.max(0, Math.min(window.innerHeight - 56, newY));
+
+            floatBall.style.left = ballX + 'px';
+            floatBall.style.top = ballY + 'px';
+            updateMenuPosition();
+            e.preventDefault();
+        }
+
+        function onDragEnd(e) {
+            if (!isDragging || !floatBall) return;
+            isDragging = false;
+            floatBall.classList.remove('dragging');
+
+            if (!hasMoved) {
+                toggleFloatMenu();
+                return;
+            }
+
+            const midX = window.innerWidth / 2;
+            if (ballX + 28 < midX) {
+                ballX = 10;
+            } else {
+                ballX = window.innerWidth - 66;
+            }
+            ballY = Math.max(10, Math.min(window.innerHeight - 66, ballY));
+
+            floatBall.style.transition = 'left 0.3s ease, top 0.3s ease';
+            floatBall.style.left = ballX + 'px';
+            floatBall.style.top = ballY + 'px';
+            updateMenuPosition();
+            setTimeout(() => {
+                if (floatBall) floatBall.style.transition = 'background 0.3s, box-shadow 0.3s';
+            }, 300);
+        }
+
+        function toggleFloatMenu() {
+            floatMenuOpen = !floatMenuOpen;
+            const icon = document.getElementById('floatBallIcon');
+
+            if (floatMenuOpen) {
+                floatBall.classList.add('active');
+                floatMenu.classList.add('show');
+                icon.classList.remove('fa-plus');
+                icon.classList.add('fa-times');
+            } else {
+                floatBall.classList.remove('active');
+                floatMenu.classList.remove('show');
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-plus');
+            }
+        }
+
+        function handleFloatAction(action) {
+            const actions = {
+                'ai': 'AI助手',
+                'nav': '快捷导航',
+                'exam': '我的考试',
+                'score': '成绩查询',
+                'msg': '消息中心',
+                'help': '帮助中心'
+            };
+            showToast(`正在打开: ${actions[action]}`);
+
+            if (action === 'exam') switchPage('exams', document.querySelector('[data-page="exams"]'));
+            if (action === 'score') switchPage('scores', document.querySelector('[data-page="scores"]'));
+
+            toggleFloatMenu();
+        }
+
+        window.addEventListener('resize', function() {
+            ballX = Math.max(0, Math.min(window.innerWidth - 56, ballX));
+            ballY = Math.max(0, Math.min(window.innerHeight - 56, ballY));
+            if (floatBall) {
+                floatBall.style.left = ballX + 'px';
+                floatBall.style.top = ballY + 'px';
+            }
+            updateMenuPosition();
+        });
+
+        // 初始化
+        refreshCaptcha('login');
+        refreshCaptcha('reg');
+    </script>
+
+    <script>
+        window.addEventListener('load', function() {
+            initFloatBall();
+        });
+    </script>
+</body>
+</html>

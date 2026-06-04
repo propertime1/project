@@ -1,0 +1,119 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  username  String   @unique
+  email     String   @unique
+  password  String
+  name      String
+  role      String   @default("STUDENT")
+  avatar    String?
+  status    String   @default("ACTIVE")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  questions     Question[]
+  exams         Exam[]
+  submissions   Submission[]
+  notifications Notification[]
+
+  @@map("users")
+}
+
+model Question {
+  id         String   @id @default(cuid())
+  type       String
+  content    String
+  options    String?
+  answer     String
+  analysis   String?
+  score      Int
+  difficulty Int      @default(3)
+  subject    String
+  chapter    String?
+  tags       String?
+  createdBy  String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  creator User           @relation(fields: [createdBy], references: [id])
+  exams   ExamQuestion[]
+
+  @@map("questions")
+}
+
+model Exam {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  startTime   DateTime
+  endTime     DateTime
+  duration    Int
+  totalScore  Int
+  passScore   Int
+  status      String   @default("DRAFT")
+  settings    String?
+  createdBy   String
+  createdAt   DateTime @default(now())
+
+  creator     User             @relation(fields: [createdBy], references: [id])
+  questions   ExamQuestion[]
+  submissions Submission[]
+
+  @@map("exams")
+}
+
+model ExamQuestion {
+  id         String @id @default(cuid())
+  examId     String
+  questionId String
+  order      Int
+  score      Int
+
+  exam     Exam     @relation(fields: [examId], references: [id])
+  question Question @relation(fields: [questionId], references: [id])
+
+  @@unique([examId, questionId])
+  @@map("exam_questions")
+}
+
+model Submission {
+  id         String   @id @default(cuid())
+  userId     String
+  examId     String
+  answers    String?
+  score      Int?
+  status     String   @default("IN_PROGRESS")
+  startTime  DateTime @default(now())
+  submitTime DateTime?
+  ipAddress  String?
+
+  user User @relation(fields: [userId], references: [id])
+  exam Exam @relation(fields: [examId], references: [id])
+
+  @@map("submissions")
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  title     String
+  content   String
+  type      String
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("notifications")
+}
