@@ -2686,9 +2686,9 @@ function getRandomQuestions(subject, count, callback) {
 }
 
 // 启动服务器
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`服务器运行在 http://localhost:${PORT}`);
-  console.log(`数据库文件: ${path.resolve('./exam_system.db')}`);
+  console.log(`数据库文件：${path.resolve('./exam_system.db')}`);
 });
 
 // 优雅关闭
