@@ -16,6 +16,11 @@ app.use(cors({
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '../')));
 
+// 首页路由
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '../exam-system-complete.html'));
+});
+
 // 初始化数据库
 const db = new sqlite3.Database('./exam_system.db');
 
